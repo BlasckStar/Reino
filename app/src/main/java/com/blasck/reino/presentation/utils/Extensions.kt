@@ -1,0 +1,9 @@
+package com.blasck.reino.presentation.utils
+
+fun Any?.isNull(): Boolean {
+    return this == null
+}
+
+fun Any?.isNotNull(): Boolean {
+    return this != null
+}

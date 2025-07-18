@@ -26,7 +26,7 @@ fun HomeLayout(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         //Image Map of Reino TODO: Montar no back a imagem do reino para ser atualizada pelo mestre
-        CoilImage("https://static.wikia.nocookie.net/tsrd/images/4/42/Mapa_arton1.jpg/revision/latest?cb=20180911162044&path-prefix=pt-br")
+        CoilImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmBqCH3lKNWDWO_faHUchfbeLrpt0U9Ncnog&s")
         // Dedicated Characters
         IconNamedButton("Dedicados", R.drawable.ic_btn_dedicated) { navigateTo("Character") } //navigateTo(MENU_DEDICATED) }
         // Poll

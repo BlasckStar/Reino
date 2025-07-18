@@ -1,4 +1,4 @@
-package com.blasck.reino.ui.theme
+package com.blasck.reino.system.theme
 
 import androidx.compose.ui.graphics.Color
 

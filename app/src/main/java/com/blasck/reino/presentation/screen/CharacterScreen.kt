@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.blasck.reino.framework.mock.SyrioAugustoModel
 import com.blasck.reino.presentation.screen.model.CharacterModel
-import com.blasck.reino.ui.theme.ReinoTheme
-import com.blasck.reino.ui.theme.Typography
+import com.blasck.reino.system.theme.KingdomTheme
+import com.blasck.reino.system.theme.Typography
 
 class CharacterScreenController(original: CharacterModel) {
     val originalModel = original
@@ -52,7 +51,7 @@ fun CharacterScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun CharacterScreenPreview() {
-    ReinoTheme {
+    KingdomTheme {
         CharacterScreen()
     }
 }

@@ -38,8 +38,8 @@ object SyrioAugustoModel {
             baseWeight = "12",
             damageGDP = "1D-1",
             damageBAL = "1D+2",
-            basicDislocation = "10.625",
-            basicSpeed = "10",
+            basicDislocation = "10",
+            basicSpeed = "10.625",
             weightLevels = listOf(
                 CharacterModel.StatusInformation.WeightStatus(
                     weightLevel = "Nenhum",
@@ -66,7 +66,7 @@ object SyrioAugustoModel {
                     dodge = "8",
                 ),
                 CharacterModel.StatusInformation.WeightStatus(
-                    weightLevel = "Muito Pesado",
+                    weightLevel = "M. Pesado",
                     weight = "120",
                     dislocation = "6",
                     dodge = "7",

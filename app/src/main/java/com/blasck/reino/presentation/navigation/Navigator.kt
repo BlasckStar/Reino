@@ -130,10 +130,10 @@ fun Navigator(
                     CharacterScreen(
                         screen.id,
                         onEditing = {
-                            updateToolbar(ToolbarState.Editing())
+                            Log.e("TesteLuiz", "onEditing")
                         },
                         toEditing = {
-                            Log.e("CharacterScreen", "toEditing")
+                            updateToolbar(ToolbarState.Editing())
                         },
                         onWaiting = {
                             updateToolbar(ToolbarState.CanEdit(screen.name))

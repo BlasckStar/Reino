@@ -1,4 +1,4 @@
-package com.blasck.reino.presentation.components
+package com.blasck.reino.presentation.components.card
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.blasck.reino.presentation.components.CoilImage
 import com.blasck.reino.presentation.models.response.CharacterList
 import com.blasck.reino.presentation.utils.isNotNullOrEmpty
 

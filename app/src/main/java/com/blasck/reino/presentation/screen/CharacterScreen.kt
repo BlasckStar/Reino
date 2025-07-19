@@ -7,6 +7,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import com.blasck.reino.framework.mock.CharacterListMock
+import com.blasck.reino.framework.mock.SyrioAugustoModel
+import com.blasck.reino.presentation.layout.CharacterLayout
 import com.blasck.reino.system.theme.KingdomTheme
 
 @Composable
@@ -28,7 +31,7 @@ fun CharacterScreen(
         }
     }
 
-    Text(text = "Character Screen")
+    CharacterLayout(SyrioAugustoModel.model)
 }
 
 @Preview(showBackground = true)

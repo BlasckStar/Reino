@@ -90,10 +90,6 @@ fun KingdomToolbar(
                 scrolledContainerColor = MaterialTheme.colorScheme.onPrimary
             )
         )
-        HorizontalDivider(
-            color = Color.Black,
-            thickness = 2.dp
-        )
     }
 
 }

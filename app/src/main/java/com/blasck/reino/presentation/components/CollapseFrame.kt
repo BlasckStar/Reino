@@ -78,7 +78,7 @@ fun CollapseFrame(
 
 @Preview(showBackground = true)
 @Composable
-fun CollapseFramPreview(){
+fun CollapseFramePreview(){
     KingdomTheme {
         CollapseFrame(title = "Titulo") {
             Text(text = "Conteudo")

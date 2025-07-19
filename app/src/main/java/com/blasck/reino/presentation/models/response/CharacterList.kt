@@ -14,16 +14,16 @@ data class CharacterList(
     )
 
     companion object{
-        fun CharacterListEntity.CharacterEntity.toEntity() =
+        fun CharacterListEntity.CharacterEntity.fromEntity() =
             CharacterInfo(
                 name = name,
                 img = img,
                 player = player
             )
 
-        fun CharacterListEntity.toEntity() =
+        fun CharacterListEntity.fromEntity() =
             CharacterList(
-                list = list.map { it.toEntity() }
+                list = list.map { it.fromEntity() }
             )
     }
 

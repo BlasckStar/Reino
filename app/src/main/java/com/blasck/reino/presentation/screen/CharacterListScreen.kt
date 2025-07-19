@@ -29,7 +29,7 @@ fun CharacterListScreen(
     val characterListState = services.characterList.collectAsState()
 
     fun getCharacters(filter: CharacterListFilters) {
-        //services.getCharacterList(filter.value)
+//        services.getCharacterList(filter.value)
     }
 
     LaunchedEffect(Unit) {

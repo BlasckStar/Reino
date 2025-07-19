@@ -7,3 +7,7 @@ fun Any?.isNull(): Boolean {
 fun Any?.isNotNull(): Boolean {
     return this != null
 }
+
+fun String.isNotNullOrEmpty(): Boolean {
+    return this.isNotNull() && this.isNotEmpty()
+}

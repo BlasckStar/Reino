@@ -16,7 +16,7 @@ object SyrioAugustoModel {
             pointToSpend = "13",
             appearance = ""
         ),
-        image = "",
+        image = "https://i.ibb.co/XZqdTzv1/Imagem-do-Whats-App-de-2025-07-14-s-21-54-37-03ec8605.jpg",
         status = CharacterModel.StatusInformation(
             strength = "12",
             strengthCost = "20",

@@ -1,6 +1,6 @@
 package com.blasck.reino.presentation.navigation
 
-import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +23,7 @@ import com.blasck.reino.presentation.screen.CharacterListScreen
 import com.blasck.reino.presentation.screen.CharacterScreen
 import com.blasck.reino.presentation.screen.ErrorScreen
 import com.blasck.reino.presentation.screen.HomeScreen
+import com.blasck.reino.presentation.screen.WikiScreen
 import com.blasck.reino.presentation.state.ToolbarState
 import com.blasck.reino.presentation.viewmodel.ServiceViewModel
 import com.blasck.reino.presentation.viewmodel.controllers.ToolbarController
@@ -77,9 +78,24 @@ fun Navigator(
                     HomeScreen(
                         navigateTo = { screen ->
                             val navigateScreen = when(screen){
-                                HomeScreens.DEDICATED -> { AppScreens.DEDICATED }
-                                HomeScreens.POLL -> { AppScreens.POLL }
-                                HomeScreens.MASTER -> { AppScreens.MASTER }
+                                HomeScreens.DEDICATED -> {
+                                    AppScreens.CharacterList(
+                                        filter = CharacterListFilters.DEDICATED.value,
+                                        screen = HomeScreens.DEDICATED.title
+                                    )
+                                }
+                                HomeScreens.POLL -> {
+                                    AppScreens.CharacterList(
+                                        filter = CharacterListFilters.POLL.value,
+                                        screen = HomeScreens.POLL.title
+                                    )
+                                }
+                                HomeScreens.MASTER -> {
+                                    AppScreens.CharacterList(
+                                        filter = CharacterListFilters.MASTER.value,
+                                        screen = HomeScreens.MASTER.title
+                                    )
+                                }
                                 HomeScreens.WIKI -> { AppScreens.WIKI }
                             }
                             navController.navigate(navigateScreen)
@@ -87,7 +103,9 @@ fun Navigator(
                     )
                     updateToolbar(ToolbarState.Home())
                 }
-                composable<AppScreens.DEDICATED>{
+
+                composable<AppScreens.CharacterList> { backStackEntry ->
+                    val screen: AppScreens.CharacterList = backStackEntry.toRoute()
                     CharacterListScreen(CharacterListFilters.DEDICATED,
                         services = service,
                         goToCharacter = { id, name ->
@@ -96,39 +114,10 @@ fun Navigator(
                     {
                         navController.navigate(AppScreens.Error("Deu merda"))
                     }
-                    updateToolbar(ToolbarState.OnlyTitle("Dedicados"))
-                }
-                composable<AppScreens.POLL> {
-                    CharacterListScreen(CharacterListFilters.DEDICATED,
-                        services = service,
-                        goToCharacter = { id, name ->
-                            navController.navigate(AppScreens.CharacterView(id, name))
-                        })
-                    {
-                        navController.navigate(AppScreens.Error("Deu merda"))
-                    }
-                    updateToolbar(ToolbarState.OnlyTitle("Poll"))
-                }
-                composable<AppScreens.MASTER> {
-                    CharacterListScreen(CharacterListFilters.DEDICATED,
-                        services = service,
-                        goToCharacter = { id, name ->
-                            navController.navigate(AppScreens.CharacterView(id, name))
-                        })
-                    {
-                        navController.navigate(AppScreens.Error("Deu merda"))
-                    }
-                    updateToolbar(ToolbarState.OnlyTitle("Mestre"))
+                    updateToolbar(ToolbarState.OnlyTitle(screen.screen))
                 }
                 composable<AppScreens.WIKI> {
-                    CharacterListScreen(CharacterListFilters.DEDICATED,
-                        services = service,
-                        goToCharacter = { id, name ->
-                            navController.navigate(AppScreens.CharacterView(id, name))
-                        })
-                    {
-                        navController.navigate(AppScreens.Error("Deu merda"))
-                    }
+                    WikiScreen()
                     updateToolbar(ToolbarState.OnlyTitle("Reinopedia"))
                 }
                 composable<AppScreens.Error>{ backEntry ->
@@ -142,6 +131,9 @@ fun Navigator(
                         screen.id,
                         onEditing = {
                             updateToolbar(ToolbarState.Editing())
+                        },
+                        toEditing = {
+                            Log.e("CharacterScreen", "toEditing")
                         },
                         onWaiting = {
                             updateToolbar(ToolbarState.CanEdit(screen.name))

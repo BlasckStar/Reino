@@ -1,6 +1,11 @@
 package com.blasck.reino.presentation.enums
 
-enum class HomeScreens
+enum class HomeScreens(
+    val title: String
+)
 {
-    DEDICATED, POLL, MASTER, WIKI
+    DEDICATED(title = "Dedicados"),
+    POLL(title = "Poll"),
+    MASTER(title = "Mestre"),
+    WIKI(title = "Reinopedia")
 }

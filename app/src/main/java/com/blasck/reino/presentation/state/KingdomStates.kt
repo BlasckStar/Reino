@@ -15,6 +15,4 @@ sealed class CharacterScreenState{
     data class Error(val throwable: Throwable?): CharacterScreenState()
     object Editing: CharacterScreenState()
     object Loading: CharacterScreenState()
-    object Waiting: CharacterScreenState()
-
 }

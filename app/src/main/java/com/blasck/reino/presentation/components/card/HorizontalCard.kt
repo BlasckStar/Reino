@@ -49,7 +49,7 @@ fun HorizontalCard(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(IntrinsicSize.Min) // 🔥 Altura conforme conteúdo
+                    .height(IntrinsicSize.Min)
             ) {
                 // Título com borda
 

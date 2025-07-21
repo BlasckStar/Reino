@@ -92,9 +92,7 @@ fun HorizontalItemCard(
 
             if(nh.isNotEmpty()){
                 Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
+                    modifier = Modifier.align(Alignment.CenterVertically),
                     text = nh,
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.End

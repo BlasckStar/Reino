@@ -148,7 +148,7 @@ object SyrioAugustoModel {
         raceAndAdvantages = CharacterModel.RaceAndAdvantages(
             list = listOf(
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
-                    name = "Aparência commun"
+                    name = "Aparência comun"
                 ),
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
                     name = "Muito Rico",
@@ -185,7 +185,7 @@ object SyrioAugustoModel {
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
                     name = "Escola Fionica",
                     cost = "5",
-                    chance = "6-"
+                    chance = "6"
                 ),
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
                     name = "Hipoalgia",
@@ -226,7 +226,7 @@ object SyrioAugustoModel {
             additional = listOf(
                 CharacterModel.ReactionModifiers.AdditionalModifier(
                     name = "Amigos",
-                    type = "Senso de dever",
+                    type = "S. dever",
                     cost = "2",
                 ),
                 CharacterModel.ReactionModifiers.AdditionalModifier(

@@ -14,6 +14,7 @@ import com.blasck.reino.R
 import com.blasck.reino.presentation.enums.HomeScreens
 import com.blasck.reino.presentation.components.CoilImage
 import com.blasck.reino.presentation.components.IconNamedButton
+import com.blasck.reino.system.theme.KingdomTheme
 
 @Composable
 fun HomeLayout(
@@ -33,9 +34,9 @@ fun HomeLayout(
         // Dedicated Characters
         IconNamedButton("Dedicados", R.drawable.ic_btn_dedicated) { navigateTo(HomeScreens.DEDICATED) } //navigateTo(MENU_DEDICATED) }
         // Poll
-        IconNamedButton("Poll", R.drawable.ic_btn_pool) { navigateTo(HomeScreens.POLL) }
+        IconNamedButton("Poll", R.drawable.ic_btn_pool, false) { navigateTo(HomeScreens.POLL) }
         // GM
-        IconNamedButton(title = "Mestre", R.drawable.ic_btn_master) { navigateTo(HomeScreens.MASTER) }
+        IconNamedButton(title = "Mestre", R.drawable.ic_btn_master, false) { navigateTo(HomeScreens.MASTER) }
         // WIKI
         IconNamedButton(title = "Reinopedia", R.drawable.ic_btn_wiki) { navigateTo(HomeScreens.WIKI) }
     }
@@ -44,5 +45,7 @@ fun HomeLayout(
 @Preview(showBackground = true)
 @Composable
 fun HomeLayoutPreview() {
-    HomeLayout { }
+    KingdomTheme {
+        HomeLayout { }
+    }
 }

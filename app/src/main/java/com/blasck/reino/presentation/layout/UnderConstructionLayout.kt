@@ -47,9 +47,10 @@ fun UnderConstructionLayout() {
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
                     Text(
-                        text = "Ainda não saiu da forja essa tela aventureiro",
+                        text = "Ainda não saiu da forja, alguem manda o luiz trabalhar mais rapido",
                         style = MaterialTheme.typography.titleLarge,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

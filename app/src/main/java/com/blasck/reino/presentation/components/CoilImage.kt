@@ -21,38 +21,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun CoilImage(
-    imageUrl: String,
-    maxWidth: Dp? = null,
-    maxHeight: Dp? = null
-) {
+fun CoilImage(imageUrl: String) {
     var imageRatio by remember { mutableStateOf<Float?>(null) }
 
     BoxWithConstraints {
-        val screenWidth = maxWidth ?: maxWidth
-        val calculatedWidth = maxWidth ?: this.maxWidth
+        val screenWidth = maxWidth
 
-        // Calcula a altura da imagem com base na razão de aspecto ou usa maxHeight
-        val calculatedHeight = when {
-            maxHeight != null -> maxHeight
-            imageRatio != null -> calculatedWidth / imageRatio!!
-            else -> 200.dp
-        }
+        val imageHeight = imageRatio?.let { screenWidth / it } ?: 200.dp
 
         SubcomposeAsyncImage(
             model = imageUrl,
             contentDescription = "Mapa do reino",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .width(calculatedWidth)
-                .height(calculatedHeight)
+                .width(screenWidth)
+                .height(imageHeight)
                 .clip(RoundedCornerShape(8.dp))
                 .border(
                     width = 2.dp,
@@ -61,7 +50,8 @@ fun CoilImage(
                 ),
             loading = {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
@@ -69,7 +59,8 @@ fun CoilImage(
             },
             error = {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text("Erro ao carregar imagem", color = MaterialTheme.colorScheme.error)

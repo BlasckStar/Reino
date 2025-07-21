@@ -7,8 +7,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ktlint)
-    alias(libs.plugins.plugin.serialization.json)
 }
 
 android {
@@ -57,18 +55,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.io.insert.koin)
     implementation(libs.io.coil.compose)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.dynamic.features.fragment)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.serialization.json)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.compose.material3)
-    implementation(libs.lottie.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

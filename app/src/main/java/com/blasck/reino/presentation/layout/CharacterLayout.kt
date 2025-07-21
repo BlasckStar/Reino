@@ -25,6 +25,8 @@ import com.blasck.reino.presentation.components.KingdomModal
 import com.blasck.reino.presentation.components.card.HorizontalItemCard
 import com.blasck.reino.presentation.components.card.StatusCard
 import com.blasck.reino.presentation.components.card.VerticalCard
+import com.blasck.reino.presentation.node.DisadvantagesAndPeculiaritiesNode
+import com.blasck.reino.presentation.node.ExpertisesNode
 import com.blasck.reino.presentation.node.MoreAttributesNode
 import com.blasck.reino.presentation.node.RaceAndAdvantagesNode
 import com.blasck.reino.presentation.node.ReactionModifiersNode
@@ -74,8 +76,12 @@ fun CharacterLayout(
             KingdomModal("Modificadores de reação") {
                 ReactionModifiersNode(model.reactionModifiers)
             }
-            KingdomModal("Desvantagens e peculiaridades") {}
-            KingdomModal("Perícias") {}
+            KingdomModal("Desvantagens e peculiaridades") {
+                DisadvantagesAndPeculiaritiesNode(model.disadvantagesAndPeculiarities.list)
+            }
+            KingdomModal("Perícias") {
+                ExpertisesNode(model.expertise)
+            }
             KingdomModal("Armas de longo Alcance") {}
             KingdomModal("Armas de combate Corpo a Corpo") {}
             KingdomModal("Inventario") {}

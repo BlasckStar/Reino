@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.blasck.reino.framework.mock.SyrioAugustoModel
 import com.blasck.reino.presentation.components.card.HorizontalCard
 import com.blasck.reino.presentation.components.card.VerticalCard
+import com.blasck.reino.presentation.components.card.VerticalExtraCard
 import com.blasck.reino.presentation.screen.model.CharacterModel
 import com.blasck.reino.system.theme.KingdomTheme
 
@@ -24,22 +25,12 @@ fun MoreAttributesNode(status: CharacterModel.StatusInformation) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 8.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .fillMaxWidth()
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 EditableCard("P. Fadiga", status.fatigue)
                 EditableCard("P. Mana", status.mana)
                 EditableCard("P. Vida", status.hitPoints)
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
                 HorizontalCard("Vontade", status.will)
                 HorizontalCard("Percepção", status.perception)
             }
@@ -52,7 +43,7 @@ fun MoreAttributesNode(status: CharacterModel.StatusInformation) {
                     .wrapContentWidth()
                     .fillMaxWidth()
             ) {
-                VerticalCard("Base de Carga", status.baseWeight)
+                VerticalCard("B. Carga", status.baseWeight)
                 VerticalCard("Dano GDP", status.damageGDP)
                 VerticalCard("Dano BAL", status.damageBAL)
             }
@@ -65,15 +56,19 @@ fun MoreAttributesNode(status: CharacterModel.StatusInformation) {
                     .wrapContentWidth()
                     .fillMaxWidth()
             ) {
-                VerticalCard("Velocidade Basica", status.basicSpeed)
-                VerticalCard("Deslocamento Basica", status.basicDislocation)
+                VerticalCard("Velocidade B.", status.basicSpeed)
+                VerticalCard("Deslocamento B.", status.basicDislocation)
             }
             WeightNode(status.weightLevels)
+            VerticalExtraCard("Esquiva") { EvadeNode(status) }
+            VerticalExtraCard("Aparar") { ParryNode(status.parry) }
+            HorizontalCard("Bloqueio", status.block)
+            ProtectionNode(status)
         }
     }
 }
 
-@Preview(showBackground = true,)
+@Preview(showBackground = true)
 @Composable
 fun MoreAttributesPreview(){
     val model = SyrioAugustoModel.model

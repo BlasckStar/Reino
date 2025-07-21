@@ -80,51 +80,68 @@ object SyrioAugustoModel {
                     value = "17",
                 ),
                 CharacterModel.StatusInformation.Parry(
-                    name = "Main Gauche",
+                    name = "M. Gauche",
                     value = "13",
                 ),
                 CharacterModel.StatusInformation.Parry(
-                    name = "Base",
+                    name = "Boxe",
                     value = "14",
                 ),
             ),
             block = "7",
             headDefense = CharacterModel.StatusInformation.Defense(
+                part = "Cabeça",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             bodyDefense = CharacterModel.StatusInformation.Defense(
+                part = "Tronco",
                 naturalDP = "0",
                 armorDP = "7",
+                totalDP = "7",
                 naturalRD = "0",
                 armorRD = "7",
-
+                totalRD = "7"
             ),
             legsDefense = CharacterModel.StatusInformation.Defense(
+                part = "Pernas",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             armDefense = CharacterModel.StatusInformation.Defense(
+                part = "Braços",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             handsDefense = CharacterModel.StatusInformation.Defense(
+                part = "Mãos",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             feetDefense = CharacterModel.StatusInformation.Defense(
+                part = "Pés",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             totalCost = "280"
         ),

@@ -34,7 +34,7 @@ val UltraDarkBrownBackground = Color(0xFF1B0F0A)  // marrom quase preto absoluto
 val UltraDarkBrownSurface = Color(0xFF2A160E)     // marrom profundo escuro
 val CreamBeigeSurface = Color(0xFFFFF8E1)
 // Cinza escuro para contornos
-val DarkGrayBorder = Color(0xFF424242)             // cinza escuro
+val DarkGrayBorder = Color(0xFF3B201C)             // cinza escuro
 
 val CustomColorScheme = lightColorScheme(
     primary = CreamBeigeSurface,

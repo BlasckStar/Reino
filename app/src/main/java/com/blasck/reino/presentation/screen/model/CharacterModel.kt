@@ -82,10 +82,13 @@ data class CharacterModel(
         )
 
         data class Defense(
+            val part: String = Constants.EMPTY_STRING,
             val naturalDP: String = Constants.EMPTY_STRING,
             val armorDP: String = Constants.EMPTY_STRING,
+            val totalDP: String = Constants.EMPTY_STRING,
             val naturalRD: String = Constants.EMPTY_STRING,
             val armorRD: String = Constants.EMPTY_STRING,
+            val totalRD: String = Constants.EMPTY_STRING,
         )
     }
 

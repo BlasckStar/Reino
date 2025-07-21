@@ -16,7 +16,7 @@ object SyrioAugustoModel {
             pointToSpend = "13",
             appearance = ""
         ),
-        image = "",
+        image = "https://i.ibb.co/XZqdTzv1/Imagem-do-Whats-App-de-2025-07-14-s-21-54-37-03ec8605.jpg",
         status = CharacterModel.StatusInformation(
             strength = "12",
             strengthCost = "20",
@@ -38,8 +38,8 @@ object SyrioAugustoModel {
             baseWeight = "12",
             damageGDP = "1D-1",
             damageBAL = "1D+2",
-            basicDislocation = "10.625",
-            basicSpeed = "10",
+            basicDislocation = "10",
+            basicSpeed = "10.625",
             weightLevels = listOf(
                 CharacterModel.StatusInformation.WeightStatus(
                     weightLevel = "Nenhum",
@@ -66,7 +66,7 @@ object SyrioAugustoModel {
                     dodge = "8",
                 ),
                 CharacterModel.StatusInformation.WeightStatus(
-                    weightLevel = "Muito Pesado",
+                    weightLevel = "M. Pesado",
                     weight = "120",
                     dislocation = "6",
                     dodge = "7",
@@ -80,58 +80,75 @@ object SyrioAugustoModel {
                     value = "17",
                 ),
                 CharacterModel.StatusInformation.Parry(
-                    name = "Main Gauche",
+                    name = "M. Gauche",
                     value = "13",
                 ),
                 CharacterModel.StatusInformation.Parry(
-                    name = "Base",
+                    name = "Boxe",
                     value = "14",
                 ),
             ),
             block = "7",
             headDefense = CharacterModel.StatusInformation.Defense(
+                part = "Cabeça",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             bodyDefense = CharacterModel.StatusInformation.Defense(
+                part = "Tronco",
                 naturalDP = "0",
                 armorDP = "7",
+                totalDP = "7",
                 naturalRD = "0",
                 armorRD = "7",
-
+                totalRD = "7"
             ),
             legsDefense = CharacterModel.StatusInformation.Defense(
+                part = "Pernas",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             armDefense = CharacterModel.StatusInformation.Defense(
+                part = "Braços",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             handsDefense = CharacterModel.StatusInformation.Defense(
+                part = "Mãos",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             feetDefense = CharacterModel.StatusInformation.Defense(
+                part = "Pés",
                 naturalDP = "0",
                 armorDP = "5",
+                totalDP = "5",
                 naturalRD = "0",
                 armorRD = "6",
+                totalRD = "6"
             ),
             totalCost = "280"
         ),
         raceAndAdvantages = CharacterModel.RaceAndAdvantages(
             list = listOf(
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
-                    name = "Aparência commun"
+                    name = "Aparência comun"
                 ),
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
                     name = "Muito Rico",
@@ -168,7 +185,7 @@ object SyrioAugustoModel {
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
                     name = "Escola Fionica",
                     cost = "5",
-                    chance = "6-"
+                    chance = "6"
                 ),
                 CharacterModel.RaceAndAdvantages.AdvantageModel(
                     name = "Hipoalgia",
@@ -209,7 +226,7 @@ object SyrioAugustoModel {
             additional = listOf(
                 CharacterModel.ReactionModifiers.AdditionalModifier(
                     name = "Amigos",
-                    type = "Senso de dever",
+                    type = "S. dever",
                     cost = "2",
                 ),
                 CharacterModel.ReactionModifiers.AdditionalModifier(

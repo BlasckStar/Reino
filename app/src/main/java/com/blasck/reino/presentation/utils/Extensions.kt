@@ -11,3 +11,7 @@ fun Any?.isNotNull(): Boolean {
 fun String.isNotNullOrEmpty(): Boolean {
     return this.isNotNull() && this.isNotEmpty()
 }
+
+fun Int.isNotNullOrZero(): Boolean {
+    return this.isNotNull() && this != 0
+}

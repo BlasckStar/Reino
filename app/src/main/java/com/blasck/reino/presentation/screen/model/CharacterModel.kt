@@ -141,6 +141,7 @@ data class CharacterModel(
             val description: String = Constants.EMPTY_STRING,
             val difficultType: String = Constants.EMPTY_STRING,
             val difficultLevel: String = Constants.EMPTY_STRING,
+            val difficultExtra: String = Constants.EMPTY_STRING,
             val cost: String = Constants.EMPTY_STRING,
             val nh: String = Constants.EMPTY_STRING,
         )

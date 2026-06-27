@@ -8,25 +8,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = KingdomGoldLight,
+    onPrimary = KingdomBrown,
+    secondary = Color(0xFFB9CCAF),
+    background = KingdomDarkBackground,
+    onBackground = KingdomCream,
+    surface = KingdomDarkSurface,
+    onSurface = KingdomCream,
+    surfaceVariant = Color(0xFF3B2B24),
+    onSurfaceVariant = Color(0xFFE1CFC2),
+    outline = Color(0xFF8E7668),
+    error = Color(0xFFFFB4AB),
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    primary = KingdomGold,
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary = KingdomGreen,
+    background = KingdomCream,
+    onBackground = KingdomBrown,
+    surface = Color.White,
+    onSurface = KingdomBrown,
+    surfaceVariant = Color(0xFFF3E7D8),
+    onSurfaceVariant = Color(0xFF5E493E),
+    outline = Color(0xFF8A7467),
+    error = KingdomRed,
 )
 
 // Marrom ultra escuro, quase preto com toque marrom
@@ -62,7 +68,7 @@ fun KingdomTheme(
 ) {
 
     MaterialTheme(
-        colorScheme = CustomColorScheme,
+        colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
         typography = Typography,
         content = content
     )

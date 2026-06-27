@@ -5,6 +5,7 @@ import com.blasck.reino.presentation.utils.Constants
 data class CharacterModel(
     val information: CharacterInformation = CharacterInformation(),
     val image: String = Constants.EMPTY_STRING,
+    val importIssues: List<ImportIssue> = emptyList(),
     val status: StatusInformation = StatusInformation(),
     val raceAndAdvantages: RaceAndAdvantages = RaceAndAdvantages(),
     val reactionModifiers: ReactionModifiers = ReactionModifiers(),
@@ -17,8 +18,15 @@ data class CharacterModel(
     val armorList: ArmorList = ArmorList(),
     val money: Money = Money(),
     val annotations: Annotations = Annotations(),
-    val pointResume: PointResume = PointResume()
+    val pointResume: PointResume = PointResume(),
+    val spellbook: Spellbook = Spellbook(),
 ){
+    data class ImportIssue(
+        val fieldName: String = Constants.EMPTY_STRING,
+        val cellAddress: String = Constants.EMPTY_STRING,
+        val rawValue: String = Constants.EMPTY_STRING,
+    )
+
     data class CharacterInformation(
         val name: String = Constants.EMPTY_STRING,
         val player: String = Constants.EMPTY_STRING,
@@ -46,10 +54,13 @@ data class CharacterModel(
         val intelligenceCost: String = Constants.EMPTY_STRING,
         val intelligenceNextLevelCost: String = Constants.EMPTY_STRING,
         val fatigue: String = Constants.EMPTY_STRING,
+        val maxFatigue: String = Constants.EMPTY_STRING,
         val mana: String = Constants.EMPTY_STRING,
+        val maxMana: String = Constants.EMPTY_STRING,
         val will: String = Constants.EMPTY_STRING,
         val perception: String = Constants.EMPTY_STRING,
         val hitPoints: String = Constants.EMPTY_STRING,
+        val maxHitPoints: String = Constants.EMPTY_STRING,
         val baseWeight: String = Constants.EMPTY_STRING,
         val damageGDP: String = Constants.EMPTY_STRING,
         val damageBAL: String = Constants.EMPTY_STRING,
@@ -119,7 +130,9 @@ data class CharacterModel(
     }
 
     data class DisadvantagesAndPeculiarities(
-        val list: List<DPModel> = listOf(),
+        val disadvantages: List<DPModel> = listOf(),
+        val peculiarities: List<DPModel> = listOf(),
+        val list: List<DPModel> = disadvantages + peculiarities,
         val totalCost: String = Constants.EMPTY_STRING
     ){
         data class DPModel(
@@ -138,6 +151,7 @@ data class CharacterModel(
             val description: String = Constants.EMPTY_STRING,
             val difficultType: String = Constants.EMPTY_STRING,
             val difficultLevel: String = Constants.EMPTY_STRING,
+            val difficultExtra: String = Constants.EMPTY_STRING,
             val cost: String = Constants.EMPTY_STRING,
             val nh: String = Constants.EMPTY_STRING,
         )
@@ -234,4 +248,22 @@ data class CharacterModel(
         val expertise: String = Constants.EMPTY_STRING,
         val total: String = Constants.EMPTY_STRING
     )
+
+    data class Spellbook(
+        val list: List<SpellModel> = emptyList(),
+    ) {
+        data class SpellModel(
+            val name: String = Constants.EMPTY_STRING,
+            val level: String = Constants.EMPTY_STRING,
+            val difficulty: String = Constants.EMPTY_STRING,
+            val cost: String = Constants.EMPTY_STRING,
+            val page: String = Constants.EMPTY_STRING,
+            val spellClass: String = Constants.EMPTY_STRING,
+            val duration: String = Constants.EMPTY_STRING,
+            val castingCost: String = Constants.EMPTY_STRING,
+            val maintenanceCost: String = Constants.EMPTY_STRING,
+            val castingTime: String = Constants.EMPTY_STRING,
+            val notes: String = Constants.EMPTY_STRING,
+        )
+    }
 }

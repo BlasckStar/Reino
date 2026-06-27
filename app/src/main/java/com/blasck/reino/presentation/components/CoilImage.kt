@@ -21,27 +21,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
+import java.io.File
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun CoilImage(imageUrl: String) {
+fun CoilImage(
+    imageUrl: String,
+    maxWidth: Dp? = null,
+    maxHeight: Dp? = null
+) {
     var imageRatio by remember { mutableStateOf<Float?>(null) }
+    val imageModel = remember(imageUrl) { imageUrl.toCoilModel() }
 
     BoxWithConstraints {
-        val screenWidth = maxWidth
+        val calculatedWidth = maxWidth ?: this.maxWidth
 
-        val imageHeight = imageRatio?.let { screenWidth / it } ?: 200.dp
+        // Calcula a altura da imagem com base na razão de aspecto ou usa maxHeight
+        val calculatedHeight = when {
+            maxHeight != null -> maxHeight
+            imageRatio != null -> calculatedWidth / imageRatio!!
+            else -> 200.dp
+        }
 
         SubcomposeAsyncImage(
-            model = imageUrl,
-            contentDescription = "Mapa do reino",
+            model = imageModel,
+            contentDescription = "Imagem",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .width(screenWidth)
-                .height(imageHeight)
+                .width(calculatedWidth)
+                .height(calculatedHeight)
                 .clip(RoundedCornerShape(8.dp))
                 .border(
                     width = 2.dp,
@@ -50,8 +62,7 @@ fun CoilImage(imageUrl: String) {
                 ),
             loading = {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
@@ -59,8 +70,7 @@ fun CoilImage(imageUrl: String) {
             },
             error = {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text("Erro ao carregar imagem", color = MaterialTheme.colorScheme.error)
@@ -83,3 +93,9 @@ fun CoilImage(imageUrl: String) {
 fun CoilImagePreview() {
     CoilImage("https://i.pinimg.com/736x/dc/7f/07/dc7f07eab2b3f5b86d256ed7b90f5809.jpg")
 }
+
+private fun String.toCoilModel(): Any =
+    when {
+        startsWith("/") || Regex("""^[A-Za-z]:[\\/].*""").matches(this) -> File(this)
+        else -> this
+    }

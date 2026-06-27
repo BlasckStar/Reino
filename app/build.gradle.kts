@@ -1,7 +1,5 @@
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-import java.lang.module.ModuleFinder.compose
 
 plugins {
     alias(libs.plugins.android.application)
@@ -9,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.plugin.serialization.json)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -30,7 +29,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -41,6 +40,10 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    sourceSets {
+        getByName("test").resources.srcDir(rootProject.file("docs"))
     }
 }
 
@@ -56,20 +59,23 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.io.insert.koin)
+    implementation(libs.io.insert.koin.compose)
     implementation(libs.io.coil.compose)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
-    implementation(libs.androidx.navigation.ui)
     implementation(libs.serialization.json)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-    implementation(libs.compose.material3)
     implementation(libs.lottie.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -83,4 +89,8 @@ tasks.withType<KotlinJvmCompile>().configureEach {
         jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
     }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }

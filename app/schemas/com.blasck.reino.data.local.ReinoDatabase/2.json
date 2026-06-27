@@ -1,0 +1,319 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "56fc48e65e96df3b1ee7729b58dca4e4",
+    "entities": [
+      {
+        "tableName": "characters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `player` TEXT NOT NULL, `creationDate` TEXT NOT NULL, `height` TEXT NOT NULL, `weight` TEXT NOT NULL, `race` TEXT NOT NULL, `kingdom` TEXT NOT NULL, `age` TEXT NOT NULL, `pointsToSpend` REAL NOT NULL, `appearance` TEXT NOT NULL, `strength` INTEGER NOT NULL, `dexterity` INTEGER NOT NULL, `intelligence` INTEGER NOT NULL, `health` INTEGER NOT NULL, `maximumFatiguePoints` INTEGER NOT NULL, `currentFatiguePoints` INTEGER NOT NULL, `maximumManaPoints` INTEGER NOT NULL, `currentManaPoints` INTEGER NOT NULL, `will` INTEGER NOT NULL, `perception` INTEGER NOT NULL, `maximumHitPoints` INTEGER NOT NULL, `currentHitPoints` INTEGER NOT NULL, `basicLift` REAL NOT NULL, `basicSpeed` REAL NOT NULL, `basicMove` INTEGER NOT NULL, `dodge` INTEGER NOT NULL, `notes` TEXT NOT NULL, `sourceFileName` TEXT NOT NULL, `sheetFormat` TEXT NOT NULL, `importedAtEpochMillis` INTEGER NOT NULL, `updatedAtEpochMillis` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "player",
+            "columnName": "player",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creationDate",
+            "columnName": "creationDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "height",
+            "columnName": "height",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "race",
+            "columnName": "race",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kingdom",
+            "columnName": "kingdom",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "age",
+            "columnName": "age",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointsToSpend",
+            "columnName": "pointsToSpend",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appearance",
+            "columnName": "appearance",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strength",
+            "columnName": "strength",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dexterity",
+            "columnName": "dexterity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intelligence",
+            "columnName": "intelligence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "health",
+            "columnName": "health",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maximumFatiguePoints",
+            "columnName": "maximumFatiguePoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentFatiguePoints",
+            "columnName": "currentFatiguePoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maximumManaPoints",
+            "columnName": "maximumManaPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentManaPoints",
+            "columnName": "currentManaPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "will",
+            "columnName": "will",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "perception",
+            "columnName": "perception",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maximumHitPoints",
+            "columnName": "maximumHitPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentHitPoints",
+            "columnName": "currentHitPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "basicLift",
+            "columnName": "basicLift",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "basicSpeed",
+            "columnName": "basicSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "basicMove",
+            "columnName": "basicMove",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dodge",
+            "columnName": "dodge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceFileName",
+            "columnName": "sourceFileName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sheetFormat",
+            "columnName": "sheetFormat",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "importedAtEpochMillis",
+            "columnName": "importedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAtEpochMillis",
+            "columnName": "updatedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "expertises",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `characterId` INTEGER NOT NULL, `position` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `difficultType` TEXT NOT NULL, `difficultLevel` TEXT NOT NULL, `difficultExtra` TEXT NOT NULL, `cost` TEXT NOT NULL, `level` TEXT NOT NULL, `modifiers` TEXT NOT NULL, FOREIGN KEY(`characterId`) REFERENCES `characters`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterId",
+            "columnName": "characterId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "difficultType",
+            "columnName": "difficultType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "difficultLevel",
+            "columnName": "difficultLevel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "difficultExtra",
+            "columnName": "difficultExtra",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cost",
+            "columnName": "cost",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modifiers",
+            "columnName": "modifiers",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_expertises_characterId",
+            "unique": false,
+            "columnNames": [
+              "characterId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_expertises_characterId` ON `${TABLE_NAME}` (`characterId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "characters",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "characterId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '56fc48e65e96df3b1ee7729b58dca4e4')"
+    ]
+  }
+}

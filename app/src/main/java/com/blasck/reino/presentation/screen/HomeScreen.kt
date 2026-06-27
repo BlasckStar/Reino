@@ -7,9 +7,11 @@ import com.blasck.reino.presentation.layout.HomeLayout
 
 @Composable
 fun HomeScreen(
-    navigateTo: (HomeScreens) -> Unit
-){
+    navigateTo: (HomeScreens) -> Unit,
+) {
     Column {
-        HomeLayout { navigateTo(it) }
+        HomeLayout(
+            navigateTo = navigateTo,
+        )
     }
 }

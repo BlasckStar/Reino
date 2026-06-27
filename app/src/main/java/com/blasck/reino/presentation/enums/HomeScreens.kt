@@ -4,7 +4,10 @@ enum class HomeScreens(
     val title: String
 )
 {
-    DEDICATED(title = "Dedicados"),
+    IMPORT_CHARACTER(title = "Importar ficha"),
+    DRIVE_CATALOG(title = "Personagens no Drive"),
+    CUSTOM_DRIVE_SOURCE(title = "Fonte de importacao"),
+    DEDICATED(title = "Lista de personagens"),
     POLL(title = "Poll"),
     MASTER(title = "Mestre"),
     WIKI(title = "Reinopedia")

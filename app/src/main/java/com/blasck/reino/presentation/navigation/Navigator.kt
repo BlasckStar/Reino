@@ -1,6 +1,5 @@
 package com.blasck.reino.presentation.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -19,20 +19,23 @@ import com.blasck.reino.presentation.components.KingdomToolbar
 import com.blasck.reino.presentation.enums.CharacterListFilters
 import com.blasck.reino.presentation.enums.HomeScreens
 import com.blasck.reino.presentation.screen.AppScreens
-import com.blasck.reino.presentation.screen.CharacterListScreen
+import com.blasck.reino.presentation.screen.CharacterImportScreen
 import com.blasck.reino.presentation.screen.CharacterScreen
+import com.blasck.reino.presentation.screen.CharacterSessionScreen
+import com.blasck.reino.presentation.screen.CharacterSearchScreen
+import com.blasck.reino.presentation.screen.CustomDriveSourceScreen
+import com.blasck.reino.presentation.screen.DriveCatalogScreen
 import com.blasck.reino.presentation.screen.ErrorScreen
 import com.blasck.reino.presentation.screen.HomeScreen
+import com.blasck.reino.presentation.screen.LocalCharacterListScreen
 import com.blasck.reino.presentation.screen.WikiScreen
 import com.blasck.reino.presentation.state.ToolbarState
-import com.blasck.reino.presentation.viewmodel.ServiceViewModel
 import com.blasck.reino.presentation.viewmodel.controllers.ToolbarController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigator(
     toolbarController: ToolbarController,
-    service: ServiceViewModel,
     onFinish : () -> Unit,
 ) {
 
@@ -77,42 +80,91 @@ fun Navigator(
                 composable<AppScreens.HOME> {
                     HomeScreen(
                         navigateTo = { screen ->
-                            val navigateScreen = when(screen){
-                                HomeScreens.DEDICATED -> {
-                                    AppScreens.CharacterList(
-                                        filter = CharacterListFilters.DEDICATED.value,
-                                        screen = HomeScreens.DEDICATED.title
-                                    )
-                                }
-                                HomeScreens.POLL -> {
-                                    AppScreens.CharacterList(
-                                        filter = CharacterListFilters.POLL.value,
-                                        screen = HomeScreens.POLL.title
-                                    )
-                                }
-                                HomeScreens.MASTER -> {
-                                    AppScreens.CharacterList(
-                                        filter = CharacterListFilters.MASTER.value,
-                                        screen = HomeScreens.MASTER.title
-                                    )
-                                }
-                                HomeScreens.WIKI -> { AppScreens.WIKI }
-                            }
-                            navController.navigate(navigateScreen)
+                            navController.navigate(screen.toAppScreen())
                         }
                     )
                     updateToolbar(ToolbarState.Home())
                 }
 
+                composable<AppScreens.CHARACTER_IMPORT> {
+                    CharacterImportScreen(
+                        onSaved = { navController.popBackStack() },
+                        onBack = { navController.popBackStack() },
+                    )
+                    updateToolbar(ToolbarState.OnlyTitle("Importar ficha"))
+                }
+
+                composable<AppScreens.DRIVE_CATALOG> {
+                    DriveCatalogScreen(
+                        onImported = { id, name ->
+                            navController.popBackStack()
+                        },
+                        title = "Personagens no Drive",
+                    )
+                    updateToolbar(ToolbarState.OnlyTitle("Personagens no Drive"))
+                }
+
+                composable<AppScreens.CUSTOM_DRIVE_SOURCE> {
+                    CustomDriveSourceScreen()
+                    updateToolbar(ToolbarState.OnlyTitle("Fonte de importacao"))
+                }
+
+                composable<AppScreens.CharacterSession> { backStackEntry ->
+                    val screen: AppScreens.CharacterSession = backStackEntry.toRoute()
+                    CharacterSessionScreen(characterId = screen.id)
+                    updateToolbar(ToolbarState.OnlyTitle(screen.name))
+                }
+
+                composable<AppScreens.LocalCharacterView> { backStackEntry ->
+                    val screen: AppScreens.LocalCharacterView = backStackEntry.toRoute()
+                    CharacterScreen(
+                        id = screen.id,
+                        onEditSession = {
+                            navController.navigate(
+                                AppScreens.CharacterSession(screen.id, screen.name),
+                            )
+                        },
+                        onSearch = {
+                            navController.navigate(
+                                AppScreens.CharacterSearch(screen.id, screen.name),
+                            )
+                        },
+                        onUpdateSheet = {
+                            navController.navigate(
+                                AppScreens.CharacterUpdate(screen.id, screen.name),
+                            )
+                        },
+                    )
+                    updateToolbar(ToolbarState.OnlyTitle(screen.name))
+                }
+
+                composable<AppScreens.CharacterUpdate> { backStackEntry ->
+                    val screen: AppScreens.CharacterUpdate = backStackEntry.toRoute()
+                    CharacterImportScreen(
+                        updateCharacterId = screen.id,
+                        onSaved = { navController.popBackStack() },
+                        onBack = { navController.popBackStack() },
+                    )
+                    updateToolbar(ToolbarState.OnlyTitle("Atualizar ${screen.name}"))
+                }
+
+                composable<AppScreens.CharacterSearch> { backStackEntry ->
+                    val screen: AppScreens.CharacterSearch = backStackEntry.toRoute()
+                    CharacterSearchScreen(characterId = screen.id)
+                    updateToolbar(ToolbarState.OnlyTitle("Buscar em ${screen.name}"))
+                }
+
                 composable<AppScreens.CharacterList> { backStackEntry ->
                     val screen: AppScreens.CharacterList = backStackEntry.toRoute()
-                    CharacterListScreen(CharacterListFilters.DEDICATED,
-                        services = service,
-                        goToCharacter = { id, name ->
-                            navController.navigate(AppScreens.CharacterView(id, name))
-                        })
-                    {
-                        navController.navigate(AppScreens.Error("Deu merda"))
+                    if (screen.filter == CharacterListFilters.DEDICATED.value) {
+                        LocalCharacterListScreen(
+                            onImportCharacter = {
+                                navController.navigate(AppScreens.DRIVE_CATALOG)
+                            },
+                            onOpenCharacter = { id, name ->
+                                navController.navigate(AppScreens.LocalCharacterView(id, name))
+                            },
+                        )
                     }
                     updateToolbar(ToolbarState.OnlyTitle(screen.screen))
                 }
@@ -125,23 +177,25 @@ fun Navigator(
                     ErrorScreen(screen.error, screen.code)
                     updateToolbar(ToolbarState.Error("Eu arco meu saco"))
                 }
-                composable<AppScreens.CharacterView> { backStackEntry ->
-                    val screen: AppScreens.CharacterView = backStackEntry.toRoute()
-                    CharacterScreen(
-                        screen.id,
-                        onEditing = {
-                            Log.e("TesteLuiz", "onEditing")
-                        },
-                        toEditing = {
-                            updateToolbar(ToolbarState.Editing())
-                        },
-                        onWaiting = {
-                            updateToolbar(ToolbarState.CanEdit(screen.name))
-                        }
-                    )
-                    updateToolbar(ToolbarState.CanEdit(screen.name))
-                }
-
             }
     }
 }
+
+
+
+internal fun HomeScreens.toAppScreen(): AppScreens =
+    when (this) {
+        HomeScreens.IMPORT_CHARACTER -> AppScreens.DRIVE_CATALOG
+        HomeScreens.DRIVE_CATALOG -> AppScreens.DRIVE_CATALOG
+        HomeScreens.CUSTOM_DRIVE_SOURCE -> AppScreens.CUSTOM_DRIVE_SOURCE
+        HomeScreens.DEDICATED ->
+            AppScreens.CharacterList(
+                filter = CharacterListFilters.DEDICATED.value,
+                screen = HomeScreens.DEDICATED.title,
+            )
+        HomeScreens.POLL ->
+            AppScreens.Error("Pool ainda sera migrado para o fluxo local/Drive.")
+        HomeScreens.MASTER ->
+            AppScreens.Error("Mestre ainda sera migrado para o fluxo local/Drive.")
+        HomeScreens.WIKI -> AppScreens.WIKI
+    }

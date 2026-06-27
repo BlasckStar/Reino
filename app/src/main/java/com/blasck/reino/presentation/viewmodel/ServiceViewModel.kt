@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blasck.reino.domain.entity.KingdomResult
 import com.blasck.reino.domain.usecase.GetCharacterListByTypeUseCase
-import com.blasck.reino.framework.mock.CharacterListMock
 import com.blasck.reino.presentation.models.response.CharacterList.Companion.fromEntity
 import com.blasck.reino.presentation.state.CharacterListState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +15,7 @@ class ServiceViewModel(
 ): ViewModel() {
 
     private val _characterList: MutableStateFlow<CharacterListState> = MutableStateFlow(
-        value =
-        CharacterListState.Success(CharacterListMock.mockList)
-        //CharacterListState.Failure(error = Exception("Error"))
-//        CharacterListState.Error(throwable = Exception("Error"))
-//        CharacterListState.Loading
+        value = CharacterListState.Loading,
     )
     val characterList = _characterList.asStateFlow()
 

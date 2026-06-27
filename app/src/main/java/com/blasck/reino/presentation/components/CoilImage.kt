@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
+import java.io.File
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
@@ -34,9 +35,9 @@ fun CoilImage(
     maxHeight: Dp? = null
 ) {
     var imageRatio by remember { mutableStateOf<Float?>(null) }
+    val imageModel = remember(imageUrl) { imageUrl.toCoilModel() }
 
     BoxWithConstraints {
-        val screenWidth = maxWidth ?: maxWidth
         val calculatedWidth = maxWidth ?: this.maxWidth
 
         // Calcula a altura da imagem com base na razão de aspecto ou usa maxHeight
@@ -47,8 +48,8 @@ fun CoilImage(
         }
 
         SubcomposeAsyncImage(
-            model = imageUrl,
-            contentDescription = "Mapa do reino",
+            model = imageModel,
+            contentDescription = "Imagem",
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .width(calculatedWidth)
@@ -92,3 +93,9 @@ fun CoilImage(
 fun CoilImagePreview() {
     CoilImage("https://i.pinimg.com/736x/dc/7f/07/dc7f07eab2b3f5b86d256ed7b90f5809.jpg")
 }
+
+private fun String.toCoilModel(): Any =
+    when {
+        startsWith("/") || Regex("""^[A-Za-z]:[\\/].*""").matches(this) -> File(this)
+        else -> this
+    }

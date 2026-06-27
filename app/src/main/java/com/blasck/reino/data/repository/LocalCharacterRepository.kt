@@ -54,10 +54,13 @@ class LocalCharacterRepository(
     ): Long =
         database.withTransaction {
             val existing =
-                characterDao.findByIdentity(
-                    name = character.identity.name,
-                    player = character.identity.player,
-                )
+                metadata.remoteSheetFileId
+                    .takeIf(String::isNotBlank)
+                    ?.let { characterDao.findByRemoteSheetFileId(it) }
+                    ?: characterDao.findByIdentity(
+                        name = character.identity.name,
+                        player = character.identity.player,
+                    ).takeIf { metadata.remoteSheetFileId.isBlank() }
             val characterId =
                 if (existing == null) {
                     characterDao.insert(character.toEntity(metadata, gson = gson))

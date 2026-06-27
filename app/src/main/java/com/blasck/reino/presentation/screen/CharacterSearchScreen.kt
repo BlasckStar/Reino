@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -29,6 +28,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.blasck.reino.presentation.components.KingdomInlineLoading
 import com.blasck.reino.presentation.search.SearchCategory
 import com.blasck.reino.presentation.search.SearchEntry
 import com.blasck.reino.presentation.search.normalizeSearch
@@ -87,7 +87,7 @@ fun CharacterSearchScreen(
         }
 
         when {
-            state.loading -> CircularProgressIndicator()
+            state.loading -> KingdomInlineLoading(message = "Consultando o grimorio...")
             state.query.length < 2 ->
                 SearchMessage("Digite pelo menos dois caracteres para pesquisar.")
             state.results.isEmpty() -> SearchMessage("Nenhum resultado encontrado.")

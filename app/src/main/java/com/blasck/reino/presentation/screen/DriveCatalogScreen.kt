@@ -20,7 +20,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -44,8 +43,11 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.blasck.reino.R
 import com.blasck.reino.domain.drive.DriveRemoteFile
+import com.blasck.reino.presentation.components.KingdomInlineLoading
+import com.blasck.reino.presentation.components.KingdomLoading
 import com.blasck.reino.presentation.viewmodel.DriveCatalogItem
 import com.blasck.reino.presentation.viewmodel.DriveCatalogItemState
+import com.blasck.reino.presentation.viewmodel.DriveCatalogSheetVersion
 import com.blasck.reino.presentation.viewmodel.DriveCatalogUiState
 import com.blasck.reino.presentation.viewmodel.DriveCatalogViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -53,6 +55,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DriveCatalogScreen(
     onImported: (Long, String) -> Unit,
+    onOpenCharacter: (Long, String) -> Unit,
     onManualImport: (() -> Unit)? = null,
     stayOnListAfterImport: Boolean = false,
     title: String = "Lista de personagens",
@@ -94,6 +97,7 @@ fun DriveCatalogScreen(
                 title = title,
                 onRefresh = viewModel::refresh,
                 onManualImport = onManualImport,
+                onOpenCharacter = onOpenCharacter,
                 onImport = viewModel::importCharacter,
                 onUpdate = viewModel::updateCharacter,
             )
@@ -106,6 +110,7 @@ private fun DriveCatalogContent(
     title: String,
     onRefresh: () -> Unit,
     onManualImport: (() -> Unit)?,
+    onOpenCharacter: (Long, String) -> Unit,
     onImport: (DriveCatalogItem) -> Unit,
     onUpdate: (DriveCatalogItem) -> Unit,
 ) {
@@ -162,19 +167,23 @@ private fun DriveCatalogContent(
                     item = item,
                     selectedImage = selectedImages[item.entry.key] ?: item.entry.primaryImage,
                     onSelectedImage = { selectedImages[item.entry.key] = it },
-                    onImport = {
+                    onOpenCharacter = onOpenCharacter,
+                    onImport = { version ->
                         onImport(
                             item.copy(
                                 entry = item.entry.copy(
+                                    primarySheet = version.sheet,
                                     primaryImage = selectedImages[item.entry.key] ?: item.entry.primaryImage,
                                 ),
                             ),
                         )
                     },
-                    onUpdate = {
+                    onUpdate = { version ->
                         onUpdate(
                             item.copy(
+                                localCharacterId = version.localCharacterId,
                                 entry = item.entry.copy(
+                                    primarySheet = version.sheet,
                                     primaryImage = selectedImages[item.entry.key] ?: item.entry.primaryImage,
                                 ),
                             ),
@@ -191,8 +200,9 @@ private fun DriveCharacterCard(
     item: DriveCatalogItem,
     selectedImage: DriveRemoteFile?,
     onSelectedImage: (DriveRemoteFile) -> Unit,
-    onImport: () -> Unit,
-    onUpdate: () -> Unit,
+    onOpenCharacter: (Long, String) -> Unit,
+    onImport: (DriveCatalogSheetVersion) -> Unit,
+    onUpdate: (DriveCatalogSheetVersion) -> Unit,
 ) {
     val entry = item.entry
     var showImageDialog by remember { mutableStateOf(false) }
@@ -226,7 +236,7 @@ private fun DriveCharacterCard(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = entry.primarySheet?.name ?: "Sem ficha",
+                    text = entry.displayName,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -276,34 +286,23 @@ private fun DriveCharacterCard(
                         )
                     }
                 }
-                Button(
-                    onClick =
-                        when (item.state) {
-                            DriveCatalogItemState.UNAVAILABLE -> onImport
-                            DriveCatalogItemState.NOT_IMPORTED -> onImport
-                            DriveCatalogItemState.IMPORTED,
-                            DriveCatalogItemState.UPDATED,
-                            DriveCatalogItemState.UPDATE_AVAILABLE,
-                            -> onUpdate
-                        },
-                    enabled = item.state != DriveCatalogItemState.UNAVAILABLE,
-                    modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .height(40.dp),
-                    contentPadding = ButtonDefaults.ContentPadding,
-                ) {
-                    Text(
-                        when (item.state) {
-                            DriveCatalogItemState.UNAVAILABLE -> "Sem ficha"
-                            DriveCatalogItemState.NOT_IMPORTED -> "Importar"
-                            DriveCatalogItemState.IMPORTED -> "Vincular"
-                            DriveCatalogItemState.UPDATED -> "Atualizar"
-                            DriveCatalogItemState.UPDATE_AVAILABLE -> "Atualizar"
-                        },
-                        style = MaterialTheme.typography.labelSmall,
-                        maxLines = 1,
-                    )
+                if (item.versions.isEmpty()) {
+                    OutlinedButton(
+                        onClick = {},
+                        enabled = false,
+                        modifier = Modifier.fillMaxWidth().height(40.dp),
+                    ) {
+                        Text("Sem ficha")
+                    }
+                } else {
+                    item.versions.forEach { version ->
+                        DriveVersionAction(
+                            version = version,
+                            onOpenCharacter = { id -> onOpenCharacter(id, entry.displayName) },
+                            onImport = { onImport(version) },
+                            onUpdate = { onUpdate(version) },
+                        )
+                    }
                 }
             }
         }
@@ -333,6 +332,72 @@ private fun DriveCharacterCard(
                 }
             },
         )
+    }
+}
+
+@Composable
+private fun DriveVersionAction(
+    version: DriveCatalogSheetVersion,
+    onOpenCharacter: (Long) -> Unit,
+    onImport: () -> Unit,
+    onUpdate: () -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(
+            text = version.sheet.name,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            val localId = version.localCharacterId
+            if (localId != null) {
+                OutlinedButton(
+                    onClick = { onOpenCharacter(localId) },
+                    modifier = Modifier.weight(1f).height(40.dp),
+                    contentPadding = ButtonDefaults.ContentPadding,
+                ) {
+                    Text(
+                        text = "Abrir",
+                        style = MaterialTheme.typography.labelSmall,
+                        maxLines = 1,
+                    )
+                }
+            }
+            Button(
+                onClick =
+                    when (version.state) {
+                        DriveCatalogItemState.UNAVAILABLE,
+                        DriveCatalogItemState.NOT_IMPORTED,
+                        -> onImport
+
+                        DriveCatalogItemState.IMPORTED,
+                        DriveCatalogItemState.UPDATED,
+                        DriveCatalogItemState.UPDATE_AVAILABLE,
+                        -> onUpdate
+                    },
+                enabled = version.state != DriveCatalogItemState.UNAVAILABLE,
+                modifier = Modifier.weight(1f).height(40.dp),
+                contentPadding = ButtonDefaults.ContentPadding,
+            ) {
+                Text(
+                    text =
+                        when (version.state) {
+                            DriveCatalogItemState.UNAVAILABLE -> "Sem ficha"
+                            DriveCatalogItemState.NOT_IMPORTED -> "Importar"
+                            DriveCatalogItemState.IMPORTED -> "Atualizar"
+                            DriveCatalogItemState.UPDATED -> "Atualizar"
+                            DriveCatalogItemState.UPDATE_AVAILABLE -> "Atualizar"
+                        },
+                    style = MaterialTheme.typography.labelSmall,
+                    maxLines = 1,
+                )
+            }
+        }
     }
 }
 
@@ -378,7 +443,7 @@ private fun LoadingCharacterImage(modifier: Modifier = Modifier) {
                 .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center,
     ) {
-        CircularProgressIndicator()
+        KingdomInlineLoading(badgeSize = 56.dp)
     }
 }
 
@@ -405,17 +470,7 @@ private fun DefaultCharacterImage(
 
 @Composable
 private fun ProgressLayout(message: String) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        CircularProgressIndicator()
-        Text(
-            text = message,
-            modifier = Modifier.padding(top = 12.dp),
-        )
-    }
+    KingdomLoading(message = message)
 }
 
 @Composable

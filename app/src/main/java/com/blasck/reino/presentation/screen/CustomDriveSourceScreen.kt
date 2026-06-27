@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.blasck.reino.domain.drive.DriveSourceOption
 import com.blasck.reino.presentation.viewmodel.CustomDriveSourceViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,63 +38,50 @@ fun CustomDriveSourceScreen(
                 .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            shape = MaterialTheme.shapes.medium,
-        ) {
+        if (state.sourceOptions.isNotEmpty()) {
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Text(
-                    text = "Fonte ativa",
+                    text = "Fontes disponiveis",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                 )
-                Text(
-                    text = if (state.isDefault) "Drive padrao do Reino" else "Drive customizado",
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Text(
-                    text = "Pasta: ${state.activeFolderId}",
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                state.sourceOptions.forEach { option ->
+                    DriveSourceOptionCard(
+                        option = option,
+                        isSelected = state.activeFolderId == option.folderId,
+                        onSelect = { viewModel.saveOption(option) },
+                    )
+                }
             }
+        } else {
+            Text(
+                text = "Nenhuma fonte remota disponivel.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
-
-        OutlinedTextField(
-            value = state.input,
-            onValueChange = viewModel::onInputChange,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Link ou ID da pasta do Drive") },
-            singleLine = false,
-            minLines = 3,
-            isError = state.error != null,
-            supportingText = {
-                Text(
-                    text = state.error
-                        ?: "Use o link da pasta raiz que contem as fichas e uma subpasta chamada Imagens.",
-                )
-            },
-        )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Button(
-                onClick = viewModel::save,
-                modifier = Modifier.weight(1f),
-            ) {
-                Text("Salvar")
-            }
             OutlinedButton(
                 onClick = viewModel::clear,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text("Usar padrao")
             }
+        }
+
+        state.error?.let { error ->
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium,
+            )
         }
 
         state.message?.let { message ->
@@ -102,6 +90,60 @@ fun CustomDriveSourceScreen(
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodyMedium,
             )
+        }
+    }
+}
+
+@Composable
+private fun DriveSourceOptionCard(
+    option: DriveSourceOption,
+    isSelected: Boolean,
+    onSelect: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant
+                    },
+            ),
+    ) {
+        Column(
+            modifier = Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = option.name,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+            )
+            if (isSelected) {
+                AssistChip(
+                    onClick = {},
+                    label = { Text("Fonte ativa") },
+                )
+            }
+            if (option.description.isNotBlank()) {
+                Text(
+                    text = option.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            Text(
+                text = "ID: ${option.folderId ?: option.link}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            OutlinedButton(
+                onClick = onSelect,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(if (isSelected) "Selecionada" else "Usar esta fonte")
+            }
         }
     }
 }

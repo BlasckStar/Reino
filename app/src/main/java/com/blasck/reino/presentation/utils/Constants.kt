@@ -8,6 +8,3 @@ object Constants {
 
 const val MENU_HOME: String = "Home"
 const val MENU_DEDICATED: String = "Dedicated"
-const val MENU_POLL: String = "Poll"
-const val MENU_GM: String = "GM"
-const val MENU_WIKI: String = "Wiki"

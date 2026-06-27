@@ -20,7 +20,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -39,6 +38,7 @@ import com.blasck.reino.domain.model.Character
 import com.blasck.reino.domain.update.CharacterChange
 import com.blasck.reino.domain.update.CharacterChangeCategory
 import com.blasck.reino.domain.update.CharacterUpdatePreview
+import com.blasck.reino.presentation.components.KingdomInlineLoading
 import com.blasck.reino.presentation.utils.formatNumber
 import com.blasck.reino.presentation.utils.formatWithMax
 import com.blasck.reino.presentation.viewmodel.CharacterImportUiState
@@ -264,10 +264,10 @@ private fun ChangeGroup(
 
 @Composable
 private fun ProgressMessage(message: String) {
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        CircularProgressIndicator()
-        Text(message)
-    }
+    KingdomInlineLoading(
+        message = message,
+        badgeSize = 72.dp,
+    )
 }
 
 @Composable

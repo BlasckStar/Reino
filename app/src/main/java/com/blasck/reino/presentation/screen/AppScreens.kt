@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 
 sealed class AppScreens {
     @Serializable object HOME: AppScreens()
-    @Serializable object WIKI: AppScreens()
     @Serializable object CHARACTER_IMPORT: AppScreens()
     @Serializable object DRIVE_CATALOG: AppScreens()
     @Serializable object CUSTOM_DRIVE_SOURCE: AppScreens()

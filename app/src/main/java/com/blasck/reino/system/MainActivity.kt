@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.blasck.reino.framework.di.KingdomModule.TOOLBAR
-import com.blasck.reino.framework.di.KingdomModule.unloadKingdomModule
 import com.blasck.reino.presentation.navigation.Navigator
 import com.blasck.reino.presentation.viewmodel.controllers.ToolbarController
 import com.blasck.reino.system.theme.KingdomTheme

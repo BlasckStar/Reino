@@ -170,7 +170,14 @@ class DriveCatalogViewModel(
 data class DriveCatalogItem(
     val entry: DriveCharacterEntry,
     val localCharacterId: Long?,
+    val versions: List<DriveCatalogSheetVersion>,
     val labels: List<String>,
+    val state: DriveCatalogItemState,
+)
+
+data class DriveCatalogSheetVersion(
+    val sheet: DriveRemoteFile,
+    val localCharacterId: Long?,
     val state: DriveCatalogItemState,
 )
 

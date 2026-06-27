@@ -118,8 +118,8 @@ class DriveCatalogBuilder {
                 val imageVersions = imagesByCharacter[key].orEmpty().sortedWith(imageComparator)
                 DriveCharacterEntry(
                     key = key,
-                    displayName = sheetVersions.firstOrNull()?.name?.displayNameFromFile()
-                        ?: imageVersions.firstOrNull()?.name?.displayNameFromFile()
+                    displayName = sheetVersions.firstOrNull()?.name?.characterDisplayNameFromFile()
+                        ?: imageVersions.firstOrNull()?.name?.characterDisplayNameFromFile()
                         ?: key,
                     primarySheet = sheetVersions.firstOrNull(),
                     sheetVersions = sheetVersions,
@@ -219,17 +219,20 @@ class DrivePublicListingParser {
 }
 
 fun String.characterKey(): String =
+    characterDisplayNameFromFile().normalizedDriveName()
+
+fun String.characterDisplayNameFromFile(): String =
     displayNameFromFile()
         .replace(Regex("""\bV\d+(?:,\d+)?\b""", RegexOption.IGNORE_CASE), "")
         .replace(Regex("""(?<=\D)\d+\b"""), "")
         .replace(Regex("""\b\d+\b"""), "")
         .replace(Regex("""\bsem fundo\b""", RegexOption.IGNORE_CASE), "")
         .replace(Regex("""\bpreview\b""", RegexOption.IGNORE_CASE), "")
-        .normalizedDriveName()
+        .trim()
 
 fun String.displayNameFromFile(): String =
     replace(Regex("""\.ods\.xlsx$""", RegexOption.IGNORE_CASE), "")
-        .replace(Regex("""\.(xlsx|png|jpg|jpeg)$""", RegexOption.IGNORE_CASE), "")
+        .replace(Regex("""\.(ods|xlsx|png|jpg|jpeg)$""", RegexOption.IGNORE_CASE), "")
         .trim()
 
 private fun String.sheetVersionRank(): Int =
@@ -265,7 +268,7 @@ private fun String.fileNameFromTooltip(): String? =
         contains(" PNG") -> substringBefore(" PNG")
         contains(" JPEG") -> substringBefore(" JPEG")
         contains(" JPG") -> substringBefore(" JPG")
-        hasAnyExtension("png", "jpg", "jpeg", "xlsx") -> this
+        hasAnyExtension("png", "jpg", "jpeg", "ods", "xlsx") -> this
         else -> null
     }?.trim()?.takeIf(String::isNotBlank)
 

@@ -148,6 +148,26 @@ class DriveCatalogTest {
     }
 
     @Test
+    fun `catalog groups ods versions under the character name`() {
+        val catalog =
+            DriveCatalogBuilder().build(
+                sheets =
+                    listOf(
+                        file("old", "Baldo V3,2.ods", GOOGLE_SHEETS_MIME_TYPE),
+                        file("new", "Baldo V4", GOOGLE_SHEETS_MIME_TYPE),
+                    ),
+                images = listOf(file("baldo1", "Baldo 01.png", "image/png")),
+            )
+
+        val baldo = checkNotNull(catalog.singleOrNull { it.key == "baldo" })
+
+        assertEquals("Baldo", baldo.displayName)
+        assertEquals("Baldo V4", baldo.primarySheet?.name)
+        assertEquals("Baldo 01.png", baldo.primaryImage?.name)
+        assertEquals(2, baldo.sheetVersions.size)
+    }
+
+    @Test
     fun `catalog keeps unmatched sheets and ignores images without sheets`() {
         val catalog =
             DriveCatalogBuilder().build(

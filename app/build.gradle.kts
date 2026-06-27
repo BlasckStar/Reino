@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.plugin.serialization.json)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -39,6 +40,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
@@ -73,6 +75,9 @@ dependencies {
     implementation(libs.lottie.compose)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.config)
+    implementation(libs.kotlinx.coroutines.play.services)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.androidx.room.testing)

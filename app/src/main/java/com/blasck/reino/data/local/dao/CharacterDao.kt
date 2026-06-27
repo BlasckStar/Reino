@@ -29,6 +29,9 @@ interface CharacterDao {
     @Query("SELECT * FROM characters WHERE id = :id")
     suspend fun findById(id: Long): CharacterEntity?
 
+    @Query("SELECT * FROM characters WHERE remoteSheetFileId = :remoteSheetFileId ORDER BY id LIMIT 1")
+    suspend fun findByRemoteSheetFileId(remoteSheetFileId: String): CharacterEntity?
+
     @Query(
         "SELECT * FROM characters " +
             "WHERE name = :name AND player = :player " +

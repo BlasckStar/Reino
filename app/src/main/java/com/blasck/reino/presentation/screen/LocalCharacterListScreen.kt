@@ -21,7 +21,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -45,6 +44,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.blasck.reino.R
 import com.blasck.reino.domain.model.StoredCharacter
+import com.blasck.reino.presentation.components.KingdomInlineLoading
 import com.blasck.reino.presentation.viewmodel.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.io.File
@@ -206,9 +206,10 @@ private fun CharacterListCard(
                 }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    CharacterMetric("PV", stored.session.currentHitPoints.toString())
-                    CharacterMetric("PF", stored.session.currentFatiguePoints.toString())
-                    CharacterMetric("PM", stored.session.currentManaPoints.toString())
+                    CharacterMetric("ST", character.attributes.strength.toString())
+                    CharacterMetric("DX", character.attributes.dexterity.toString())
+                    CharacterMetric("IQ", character.attributes.intelligence.toString())
+                    CharacterMetric("HT", character.attributes.health.toString())
                 }
 
                 Text(
@@ -308,7 +309,7 @@ private fun SavedCharacterImage(
                         .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center,
             ) {
-                CircularProgressIndicator(modifier = Modifier.size(28.dp))
+                KingdomInlineLoading(badgeSize = 48.dp)
             }
         },
         error = {
@@ -361,7 +362,7 @@ private fun EmptyCharacterListCard(onImportCharacter: () -> Unit) {
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = "Importe uma ficha do Drive para ela aparecer aqui com imagem, status e dados de sessao.",
+                text = "Importe uma ficha do Drive para ela aparecer aqui com imagem, atributos e dados principais.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

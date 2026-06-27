@@ -41,9 +41,6 @@ fun HomeLayout(
         HomeHeader()
         IconNamedButton("Lista de personagens", R.drawable.ic_btn_dedicated) { navigateTo(HomeScreens.DEDICATED) }
         IconNamedButton("Fonte de importacao", R.drawable.ic_btn_drive_link) { navigateTo(HomeScreens.CUSTOM_DRIVE_SOURCE) }
-        IconNamedButton("Poll", R.drawable.ic_btn_pool, false) { navigateTo(HomeScreens.POLL) }
-        IconNamedButton(title = "Mestre", R.drawable.ic_btn_master, false) { navigateTo(HomeScreens.MASTER) }
-        IconNamedButton(title = "Reinopedia", R.drawable.ic_btn_wiki) { navigateTo(HomeScreens.WIKI) }
     }
 }
 

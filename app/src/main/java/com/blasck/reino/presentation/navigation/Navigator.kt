@@ -28,7 +28,6 @@ import com.blasck.reino.presentation.screen.DriveCatalogScreen
 import com.blasck.reino.presentation.screen.ErrorScreen
 import com.blasck.reino.presentation.screen.HomeScreen
 import com.blasck.reino.presentation.screen.LocalCharacterListScreen
-import com.blasck.reino.presentation.screen.WikiScreen
 import com.blasck.reino.presentation.state.ToolbarState
 import com.blasck.reino.presentation.viewmodel.controllers.ToolbarController
 
@@ -61,7 +60,6 @@ fun Navigator(
                             is ToolbarState.CanEdit -> { navController.popBackStack() }
                             is ToolbarState.OnlyTitle -> { navController.popBackStack() }
                             is ToolbarState.Editing -> { navController.popBackStack() }
-                            is ToolbarState.Error -> { navController.navigate(AppScreens.HOME)}
                         }
                     }
                 },
@@ -98,6 +96,9 @@ fun Navigator(
                     DriveCatalogScreen(
                         onImported = { id, name ->
                             navController.popBackStack()
+                        },
+                        onOpenCharacter = { id, name ->
+                            navController.navigate(AppScreens.LocalCharacterView(id, name))
                         },
                         title = "Personagens no Drive",
                     )
@@ -168,14 +169,10 @@ fun Navigator(
                     }
                     updateToolbar(ToolbarState.OnlyTitle(screen.screen))
                 }
-                composable<AppScreens.WIKI> {
-                    WikiScreen()
-                    updateToolbar(ToolbarState.OnlyTitle("Reinopedia"))
-                }
                 composable<AppScreens.Error>{ backEntry ->
                     val screen: AppScreens.Error = backEntry.toRoute()
                     ErrorScreen(screen.error, screen.code)
-                    updateToolbar(ToolbarState.Error("Eu arco meu saco"))
+                    updateToolbar(ToolbarState.OnlyTitle("Aviso"))
                 }
             }
     }
@@ -193,9 +190,4 @@ internal fun HomeScreens.toAppScreen(): AppScreens =
                 filter = CharacterListFilters.DEDICATED.value,
                 screen = HomeScreens.DEDICATED.title,
             )
-        HomeScreens.POLL ->
-            AppScreens.Error("Pool ainda sera migrado para o fluxo local/Drive.")
-        HomeScreens.MASTER ->
-            AppScreens.Error("Mestre ainda sera migrado para o fluxo local/Drive.")
-        HomeScreens.WIKI -> AppScreens.WIKI
     }

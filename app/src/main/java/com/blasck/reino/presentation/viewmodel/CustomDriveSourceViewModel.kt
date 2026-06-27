@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blasck.reino.domain.drive.DriveFolderLinkParser
 import com.blasck.reino.domain.drive.DriveSourceConfig
+import com.blasck.reino.domain.drive.DriveSourceOption
+import com.blasck.reino.domain.repository.DefaultDriveSourceProvider
 import com.blasck.reino.domain.repository.DriveSourceRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class CustomDriveSourceViewModel(
     private val driveSourceRepository: DriveSourceRepository,
+    private val defaultDriveSourceProvider: DefaultDriveSourceProvider,
 ) : ViewModel() {
     private val _state = MutableStateFlow(CustomDriveSourceUiState())
     val state: StateFlow<CustomDriveSourceUiState> = _state.asStateFlow()
@@ -22,33 +25,26 @@ class CustomDriveSourceViewModel(
             driveSourceRepository.observeSource().collect { source ->
                 _state.update {
                     it.copy(
-                        input = if (source.isDefault) it.input else source.customLink.ifBlank { source.rootFolderId },
                         activeFolderId = source.rootFolderId,
-                        activeLink = source.customLink,
                         isDefault = source.isDefault,
                     )
                 }
             }
         }
-    }
-
-    fun onInputChange(value: String) {
-        _state.update {
-            it.copy(
-                input = value,
-                error = null,
-                message = null,
-            )
+        viewModelScope.launch {
+            defaultDriveSourceProvider.observeSourceOptions().collect { options ->
+                _state.update { it.copy(sourceOptions = options) }
+            }
         }
     }
 
-    fun save() {
-        val link = state.value.input.trim()
+    fun saveOption(option: DriveSourceOption) {
+        val link = option.link.trim()
         val folderId = DriveFolderLinkParser.extractFolderId(link)
         if (folderId == null) {
             _state.update {
                 it.copy(
-                    error = "Cole um link valido de pasta do Drive ou o ID da pasta.",
+                    error = "A fonte ${option.name} nao tem um link valido de pasta do Drive.",
                     message = null,
                 )
             }
@@ -65,7 +61,7 @@ class CustomDriveSourceViewModel(
             _state.update {
                 it.copy(
                     error = null,
-                    message = "Fonte de importacao salva.",
+                    message = "Fonte de importacao salva: ${option.name}.",
                 )
             }
         }
@@ -76,7 +72,6 @@ class CustomDriveSourceViewModel(
             driveSourceRepository.clearCustomSource()
             _state.update {
                 it.copy(
-                    input = "",
                     error = null,
                     message = "Fonte padrao restaurada.",
                 )
@@ -86,10 +81,9 @@ class CustomDriveSourceViewModel(
 }
 
 data class CustomDriveSourceUiState(
-    val input: String = "",
     val activeFolderId: String = "",
-    val activeLink: String = "",
     val isDefault: Boolean = true,
+    val sourceOptions: List<DriveSourceOption> = emptyList(),
     val message: String? = null,
     val error: String? = null,
 )

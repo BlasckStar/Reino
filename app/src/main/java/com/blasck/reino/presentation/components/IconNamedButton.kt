@@ -16,34 +16,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.blasck.reino.R
-import com.blasck.reino.system.theme.KingdomTheme
 
 @Composable
 fun IconNamedButton(
     title: String,
     icon: Int,
-    isEnabled: Boolean = true,
     onClick: () -> Unit
 ) {
 
 
     Button(
-        onClick = { onClick() },
+        onClick = { onClick },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
         shape = RoundedCornerShape(4.dp),
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
-        enabled = isEnabled,
-        colors = ButtonDefaults.buttonColors(
-            disabledContainerColor = MaterialTheme.colorScheme.surface
-        )
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp)
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -66,15 +61,5 @@ fun IconNamedButton(
 @Preview(showBackground = true)
 @Composable
 fun IconNamedButtonPreview() {
-    KingdomTheme {
-        IconNamedButton("Teste", R.drawable.ic_btn_dedicated, true) { }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun IconNamedButtonDisabledPreview() {
-    KingdomTheme {
-        IconNamedButton("Teste", R.drawable.ic_btn_dedicated, false) { }
-    }
+    IconNamedButton("Teste", R.drawable.ic_btn_dedicated) { }
 }
